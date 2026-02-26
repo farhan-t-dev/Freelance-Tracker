@@ -57,3 +57,29 @@ def create_invoice(db: Session, invoice: schemas.InvoiceCreate):
     db.commit()
     db.refresh(db_invoice)
     return db_invoice
+
+# --- Time Entry ---
+def get_time_entries(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.TimeEntry).offset(skip).limit(limit).all()
+
+def create_time_entry(db: Session, time_entry: schemas.TimeEntryCreate):
+    # Verify project exists
+    project = get_project(db, time_entry.project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    db_time_entry = models.TimeEntry(**time_entry.dict())
+    db.add(db_time_entry)
+    db.commit()
+    db.refresh(db_time_entry)
+    return db_time_entry
+
+def update_time_entry(db: Session, time_entry_id: int, time_entry: schemas.TimeEntryUpdate):
+    db_time_entry = db.query(models.TimeEntry).filter(models.TimeEntry.id == time_entry_id).first()
+    if db_time_entry:
+        update_data = time_entry.dict(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(db_time_entry, key, value)
+        db.commit()
+        db.refresh(db_time_entry)
+    return db_time_entry

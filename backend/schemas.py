@@ -55,5 +55,26 @@ class Invoice(InvoiceBase):
     class Config:
         orm_mode = True
 
+# --- Time Entry ---
+class TimeEntryBase(BaseModel):
+    description: str
+    start_time: datetime
+    end_time: Optional[datetime] = None
+
+class TimeEntryCreate(TimeEntryBase):
+    project_id: int
+
+class TimeEntryUpdate(BaseModel):
+    description: Optional[str] = None
+    end_time: Optional[datetime] = None
+
+class TimeEntry(TimeEntryBase):
+    id: int
+    project_id: int
+
+    class Config:
+        orm_mode = True
+
 # Update forward references
 Client.update_forward_refs()
+Project.update_forward_refs()

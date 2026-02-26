@@ -79,6 +79,22 @@ def create_invoice(invoice: schemas.InvoiceCreate, db: Session = Depends(get_db)
 def read_invoices(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_invoices(db, skip=skip, limit=limit)
 
+# --- Time Entries ---
+@app.post("/time-entries/", response_model=schemas.TimeEntry)
+def create_time_entry(time_entry: schemas.TimeEntryCreate, db: Session = Depends(get_db)):
+    return crud.create_time_entry(db=db, time_entry=time_entry)
+
+@app.get("/time-entries/", response_model=List[schemas.TimeEntry])
+def read_time_entries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return crud.get_time_entries(db, skip=skip, limit=limit)
+
+@app.put("/time-entries/{entry_id}", response_model=schemas.TimeEntry)
+def update_time_entry(entry_id: int, time_entry: schemas.TimeEntryUpdate, db: Session = Depends(get_db)):
+    db_time_entry = crud.update_time_entry(db, time_entry_id=entry_id, time_entry=time_entry)
+    if db_time_entry is None:
+        raise HTTPException(status_code=404, detail="Time entry not found")
+    return db_time_entry
+
 @app.get("/")
 def read_root():
     return {"message": "Freelance Client Tracking API is Running!"}

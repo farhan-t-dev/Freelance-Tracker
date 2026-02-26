@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Client, Project, Invoice } from './types';
+import type { Client, Project, Invoice, TimeEntry } from './types';
 
 const api = axios.create({
   baseURL: 'http://localhost:8000',
@@ -13,6 +13,11 @@ export const getClients = async () => {
 
 export const createClient = async (client: any) => {
   const response = await api.post<Client>('/clients/', client);
+  return response.data;
+};
+
+export const getClient = async (id: number) => {
+  const response = await api.get<Client>(`/clients/${id}`);
   return response.data;
 };
 
@@ -40,6 +45,22 @@ export const getInvoices = async () => {
 
 export const createInvoice = async (invoice: any) => {
   const response = await api.post<Invoice>('/invoices/', invoice);
+  return response.data;
+};
+
+// --- Time Entries ---
+export const getTimeEntries = async () => {
+  const response = await api.get<TimeEntry[]>('/time-entries/');
+  return response.data;
+};
+
+export const createTimeEntry = async (timeEntry: any) => {
+  const response = await api.post<TimeEntry>('/time-entries/', timeEntry);
+  return response.data;
+};
+
+export const updateTimeEntry = async (id: number, timeEntry: any) => {
+  const response = await api.put<TimeEntry>(`/time-entries/${id}`, timeEntry);
   return response.data;
 };
 

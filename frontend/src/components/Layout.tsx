@@ -1,26 +1,35 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const Layout = () => {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path ? 'active' : '';
+  };
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <nav style={{ width: '250px', backgroundColor: '#f0f0f0', padding: '20px' }}>
-        <h2>Freelance App</h2>
+    <div className="layout-container" style={{ display: 'flex', minHeight: '100vh' }}>
+      <nav style={{ width: '260px', backgroundColor: '#fff', padding: '30px 20px' }}>
+        <h2>FreelanceFlow</h2>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li>
-            <Link to="/">Dashboard</Link>
+            <Link to="/" className={isActive('/')}>Dashboard</Link>
           </li>
           <li>
-            <Link to="/clients">Clients</Link>
+            <Link to="/clients" className={isActive('/clients')}>Clients</Link>
           </li>
           <li>
-            <Link to="/projects">Projects</Link>
+            <Link to="/projects" className={isActive('/projects')}>Projects</Link>
           </li>
           <li>
-            <Link to="/invoices">Invoices</Link>
+            <Link to="/invoices" className={isActive('/invoices')}>Invoices</Link>
+          </li>
+          <li>
+            <Link to="/time-tracking" className={isActive('/time-tracking')}>Time Tracking</Link>
           </li>
         </ul>
       </nav>
-      <main style={{ flex: 1, padding: '20px' }}>
+      <main style={{ flex: 1, padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
         <Outlet />
       </main>
     </div>

@@ -5,6 +5,7 @@ export interface Client {
   phone?: string;
   address?: string;
   created_at: string;
+  projects?: Project[];
 }
 
 export interface Project {
@@ -24,4 +25,12 @@ export interface Invoice {
   issued_date: string;
   project_id: number;
   project?: Project;
+}
+
+export interface TimeEntry {
+  id: number;
+  description: string;
+  start_time: string;
+  end_time?: string;
+  project_id: number;
 }
