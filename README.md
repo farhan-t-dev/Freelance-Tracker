@@ -1,6 +1,6 @@
 # Freelance Client Tracking App
 
-A full-stack application for freelancers to track clients, projects, and invoices. Built with **React (TypeScript)** and **FastAPI (Python)**.
+A full-stack application for freelancers to track clients, projects, and invoices. Built with **React (TypeScript)** and **FastAPI (Python)**. Its a personal project to help smoothen the freelance journey as there's not many app out thatt i can use it properly.
 
 ## 🚀 Features
 
